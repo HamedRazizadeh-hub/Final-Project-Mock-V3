@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
-import { ACCOUNT, useApp } from '@/lib/store';
+import { useApp } from '@/lib/store';
 import { Mark } from './Logo';
 
 const LINKS = [
@@ -13,7 +13,7 @@ const LINKS = [
 export default function Navbar() {
   const path = usePathname();
   const router = useRouter();
-  const { loggedIn, logOut, completion } = useApp();
+  const { account, loggedIn, logOut, completion } = useApp();
 
   return (
     <header className="nav">
@@ -44,9 +44,9 @@ export default function Navbar() {
           <div className="nav-account">
             <span className="row" style={{ gap: 9 }}>
               <span className="avatar" aria-hidden="true">
-                {ACCOUNT.initials}
+                {account.initials}
               </span>
-              <span style={{ fontSize: 13, color: 'var(--ink-3)' }}>{ACCOUNT.firstName}</span>
+              <span style={{ fontSize: 13, color: 'var(--ink-3)' }}>{account.firstName}</span>
             </span>
             <button
               type="button"

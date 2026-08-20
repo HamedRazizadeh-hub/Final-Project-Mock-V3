@@ -5,14 +5,14 @@ import { useRouter } from 'next/navigation';
 import { useMemo, useState } from 'react';
 import { JOBS } from '@/lib/jobs';
 import { relevanceRank, scoreJob } from '@/lib/match';
-import { ACCOUNT, JOB_STATES, useApp } from '@/lib/store';
+import { JOB_STATES, useApp } from '@/lib/store';
 
 const SUGGESTIONS = ['React', 'Data Analyst', 'Remote', 'Utrecht'];
 const MATCH_COLOR = { strong: 'var(--match)', fair: 'var(--plum-2)', low: 'var(--amber-ink)' } as const;
 
 export default function HomePage() {
   const router = useRouter();
-  const { loggedIn, profile, saved, completion } = useApp();
+  const { account, loggedIn, profile, saved, completion } = useApp();
   const [query, setQuery] = useState('');
 
   const search = (value: string) => router.push(value.trim() ? `/jobs?q=${encodeURIComponent(value.trim())}` : '/jobs');
@@ -34,7 +34,7 @@ export default function HomePage() {
               Your career workspace
             </p>
             <h1 className="display" style={{ fontSize: 'clamp(38px, 5vw, 64px)', marginBottom: 12 }}>
-              Good morning, {ACCOUNT.firstName}.
+              Good morning, {account.firstName}.
             </h1>
             <p style={{ marginBottom: 34, fontSize: 18, color: 'var(--ink-3)' }}>Ready to find your next match?</p>
             <div className="row" style={{ gap: 12 }}>

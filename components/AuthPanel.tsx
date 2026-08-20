@@ -37,7 +37,7 @@ export default function AuthPanel({ mode }: { mode: 'login' | 'register' }) {
           style={{ gap: 14 }}
           onSubmit={(event) => {
             event.preventDefault();
-            logIn();
+            logIn(email);
             router.push(register ? '/profile' : '/');
           }}
         >
