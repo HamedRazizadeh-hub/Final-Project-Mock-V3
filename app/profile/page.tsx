@@ -89,18 +89,7 @@ export default function ProfilePage() {
           <p className="lede" style={{ maxWidth: '44ch' }}>
             The information we use to understand which jobs fit you.
           </p>
-        </div>
-        <div style={{ minWidth: 200 }}>
-          <p className="spread" style={{ alignItems: 'baseline' }}>
-            <span className="label">Complete</span>
-            <span className="num" style={{ fontSize: 26 }}>
-              {visibleCompletion}%
-            </span>
-          </p>
-          <div className="meter" style={{ marginTop: 10 }}>
-            <span style={{ width: `${visibleCompletion}%`, background: 'var(--plum-2)' }} />
-          </div>
-          <div className="row" style={{ gap: 8, marginTop: 18, justifyContent: 'flex-end' }}>
+          <div className="row" style={{ gap: 8, marginTop: 18 }}>
             {editing ? (
               <>
                 <button type="button" className="btn btn-primary btn-sm" onClick={saveProfile}>
@@ -115,6 +104,17 @@ export default function ProfilePage() {
                 Edit profile
               </button>
             )}
+          </div>
+        </div>
+        <div style={{ minWidth: 200 }}>
+          <p className="spread" style={{ alignItems: 'baseline' }}>
+            <span className="label">Complete</span>
+            <span className="num" style={{ fontSize: 26 }}>
+              {visibleCompletion}%
+            </span>
+          </p>
+          <div className="meter" style={{ marginTop: 10 }}>
+            <span style={{ width: `${visibleCompletion}%`, background: 'var(--plum-2)' }} />
           </div>
         </div>
       </div>
