@@ -30,17 +30,25 @@ export default function HomePage() {
       <div className="wrap wrap-narrow">
         <div className="member-home">
           <div>
-            <p className="label" style={{ marginBottom: 18 }}>Your career workspace</p>
+            <p className="label" style={{ marginBottom: 18 }}>
+              Your career workspace
+            </p>
             <h1 className="display" style={{ fontSize: 'clamp(38px, 5vw, 64px)', marginBottom: 12 }}>
               Good morning, {ACCOUNT.firstName}.
             </h1>
             <p style={{ marginBottom: 34, fontSize: 18, color: 'var(--ink-3)' }}>Ready to find your next match?</p>
             <div className="row" style={{ gap: 12 }}>
-              <Link href="/jobs" className="btn btn-primary" style={{ height: 48, padding: '0 22px' }}>Find Jobs</Link>
-              <Link href="/profile" className="btn btn-outline" style={{ height: 48 }}>Update Match Profile</Link>
+              <Link href="/jobs" className="btn btn-primary" style={{ height: 48, padding: '0 22px' }}>
+                Find Jobs
+              </Link>
+              <Link href="/profile" className="btn btn-outline" style={{ height: 48 }}>
+                Update Match Profile
+              </Link>
             </div>
             <p style={{ marginTop: 18 }}>
-              <Link href="/resume" className="link-quiet" style={{ fontSize: 13.5 }}>Build Resume — optional</Link>
+              <Link href="/resume" className="link-quiet" style={{ fontSize: 13.5 }}>
+                Build Resume — optional
+              </Link>
             </p>
           </div>
 
@@ -49,7 +57,9 @@ export default function HomePage() {
               <div className="panel" style={{ padding: 22 }}>
                 <div className="spread" style={{ alignItems: 'baseline' }}>
                   <p className="label">Your Match Profile</p>
-                  <span className="num" style={{ fontSize: 20 }}>{completion}%</span>
+                  <span className="num" style={{ fontSize: 20 }}>
+                    {completion}%
+                  </span>
                 </div>
                 <div className="meter" style={{ margin: '14px 0 12px' }}>
                   <span style={{ width: `${completion}%`, background: 'var(--plum-2)' }} />
@@ -57,14 +67,18 @@ export default function HomePage() {
                 <p style={{ marginBottom: 14, fontSize: 13.5, color: 'var(--ink-3)' }}>
                   Add a salary expectation to sharpen your recommendations.
                 </p>
-                <Link href="/profile" className="link-btn">Complete profile →</Link>
+                <Link href="/profile" className="link-btn">
+                  Complete profile →
+                </Link>
               </div>
             ) : null}
 
             <div className="panel" style={{ padding: 22 }}>
               <div className="spread" style={{ marginBottom: 16, alignItems: 'baseline' }}>
                 <p className="label">Top matches today</p>
-                <Link href="/jobs" className="link-quiet">See all</Link>
+                <Link href="/jobs" className="link-quiet">
+                  See all
+                </Link>
               </div>
               <div className="mini-list">
                 {topMatches.map((job) => {
@@ -73,11 +87,17 @@ export default function HomePage() {
                     <button type="button" key={job.id} onClick={() => router.push(`/jobs/${job.id}`)}>
                       <span>
                         <span className="mini-title">{job.title}</span>
-                        <span className="small" style={{ display: 'block' }}>{[job.company, job.city, job.workMode].join(' · ')}</span>
+                        <span className="small" style={{ display: 'block' }}>
+                          {[job.company, job.city, job.workMode].join(' · ')}
+                        </span>
                       </span>
                       <span className="row" style={{ gap: 5, alignItems: 'baseline' }}>
-                        <span className="num" style={{ fontSize: 22, color: MATCH_COLOR[score.tone] }}>{score.match}</span>
-                        <span className="match-cap" style={{ marginTop: 0 }}>MATCH</span>
+                        <span className="num" style={{ fontSize: 22, color: MATCH_COLOR[score.tone] }}>
+                          {score.match}
+                        </span>
+                        <span className="match-cap" style={{ marginTop: 0 }}>
+                          MATCH
+                        </span>
                       </span>
                     </button>
                   );
@@ -95,7 +115,9 @@ export default function HomePage() {
                 <span className="small">applications sent</span>
               </button>
             </div>
-            <p className="small">{JOB_STATES.length} tracking states, exactly as before: saved, applied, rejected, accepted, declined.</p>
+            <p className="small">
+              {JOB_STATES.length} tracking states, exactly as before: saved, applied, rejected, accepted, declined.
+            </p>
           </div>
         </div>
       </div>
@@ -107,18 +129,28 @@ export default function HomePage() {
       <div className="wrap">
         <section className="hero">
           <div>
-            <p className="label" style={{ marginBottom: 26 }}>Career decisions, with evidence</p>
+            <p className="label" style={{ marginBottom: 26 }}>
+              Career decisions, with evidence
+            </p>
             <h1 className="display hero-title" style={{ marginBottom: 22 }}>
-              Find work<br />that <em className="em">actually</em><br />fits you.
+              Find work
+              <br />
+              that <em className="em">actually</em>
+              <br />
+              fits you.
             </h1>
             <p className="lede" style={{ maxWidth: '34ch' }}>
-              Relevant jobs. Transparent matches.<br />Fresh listings. Less wasted time.
+              Relevant jobs. Transparent matches.
+              <br />
+              Fresh listings. Less wasted time.
             </p>
           </div>
 
           <div>
             <div className="search-card">
-              <p className="label" style={{ marginBottom: 14 }}>Search</p>
+              <p className="label" style={{ marginBottom: 14 }}>
+                Search
+              </p>
               <form
                 className="search-row"
                 onSubmit={(event) => {
@@ -134,12 +166,16 @@ export default function HomePage() {
                   value={query}
                   onChange={(event) => setQuery(event.target.value)}
                 />
-                <button type="submit" className="btn btn-primary">Find jobs →</button>
+                <button type="submit" className="btn btn-primary">
+                  Find jobs →
+                </button>
               </form>
               <div className="suggests">
                 <span className="small">Try</span>
                 {SUGGESTIONS.map((suggestion) => (
-                  <button type="button" key={suggestion} onClick={() => search(suggestion)}>{suggestion}</button>
+                  <button type="button" key={suggestion} onClick={() => search(suggestion)}>
+                    {suggestion}
+                  </button>
                 ))}
               </div>
             </div>
@@ -154,9 +190,13 @@ export default function HomePage() {
         <div className="wrap">
           <div className="value-grid">
             <div className="value-cell">
-              <p className="label" style={{ marginBottom: 18 }}>Match</p>
+              <p className="label" style={{ marginBottom: 18 }}>
+                Match
+              </p>
               <p className="row" style={{ gap: 10, alignItems: 'baseline' }}>
-                <span className="num value-num" style={{ color: 'var(--match)' }}>87</span>
+                <span className="num value-num" style={{ color: 'var(--match)' }}>
+                  87
+                </span>
                 <span style={{ fontSize: 13, color: 'var(--ink-3)' }}>Strong fit</span>
               </p>
               <div className="meter" style={{ marginTop: 14, maxWidth: 200 }}>
@@ -167,7 +207,9 @@ export default function HomePage() {
               </p>
             </div>
             <div className="value-cell">
-              <p className="label" style={{ marginBottom: 18 }}>Freshness</p>
+              <p className="label" style={{ marginBottom: 18 }}>
+                Freshness
+              </p>
               <p className="row" style={{ gap: 9 }}>
                 <span className="dot" style={{ background: 'var(--fresh)' }} />
                 <span className="h2">Fresh</span>
@@ -178,7 +220,9 @@ export default function HomePage() {
               </p>
             </div>
             <div className="value-cell">
-              <p className="label" style={{ marginBottom: 18 }}>Insight</p>
+              <p className="label" style={{ marginBottom: 18 }}>
+                Insight
+              </p>
               <p className="h2">7 matching skills</p>
               <div className="chips" style={{ marginTop: 12 }}>
                 <span className="chip chip-have">React</span>
@@ -203,25 +247,33 @@ export default function HomePage() {
               <span className="i">01</span>
               <div>
                 <p style={{ fontWeight: 600, marginBottom: 4 }}>Does this job fit me?</p>
-                <p style={{ fontSize: 14, color: 'var(--ink-3)' }}>Your skills, city, work mode and experience against what the listing asks for.</p>
+                <p style={{ fontSize: 14, color: 'var(--ink-3)' }}>
+                  Your skills, city, work mode and experience against what the listing asks for.
+                </p>
               </div>
             </div>
             <div className="explain-row">
               <span className="i">02</span>
               <div>
                 <p style={{ fontWeight: 600, marginBottom: 4 }}>Is this listing worth my time?</p>
-                <p style={{ fontSize: 14, color: 'var(--ink-3)' }}>Age, re-posting and last check — so you skip the ones that go nowhere.</p>
+                <p style={{ fontSize: 14, color: 'var(--ink-3)' }}>
+                  Age, re-posting and last check — so you skip the ones that go nowhere.
+                </p>
               </div>
             </div>
             <div className="explain-row">
               <span className="i">03</span>
               <div>
                 <p style={{ fontWeight: 600, marginBottom: 4 }}>Then keep track of it.</p>
-                <p style={{ fontSize: 14, color: 'var(--ink-3)' }}>Apply on the company site, come back, and mark where it stands.</p>
+                <p style={{ fontSize: 14, color: 'var(--ink-3)' }}>
+                  Apply on the company site, come back, and mark where it stands.
+                </p>
               </div>
             </div>
             <p style={{ marginTop: 24 }}>
-              <Link href="/jobs" className="link-btn" style={{ fontSize: 15 }}>Explore jobs →</Link>
+              <Link href="/jobs" className="link-btn" style={{ fontSize: 15 }}>
+                Explore jobs →
+              </Link>
             </p>
           </div>
         </section>

@@ -25,7 +25,12 @@ export default function Navbar() {
 
         <nav className="nav-links" aria-label="Main">
           {LINKS.map((link) => (
-            <Link key={link.href} href={link.href} className="nav-link" aria-current={path === link.href ? 'page' : undefined}>
+            <Link
+              key={link.href}
+              href={link.href}
+              className="nav-link"
+              aria-current={path === link.href ? 'page' : undefined}
+            >
               {link.label}
             </Link>
           ))}
@@ -38,7 +43,9 @@ export default function Navbar() {
         {loggedIn ? (
           <div className="nav-account">
             <span className="row" style={{ gap: 9 }}>
-              <span className="avatar" aria-hidden="true">{ACCOUNT.initials}</span>
+              <span className="avatar" aria-hidden="true">
+                {ACCOUNT.initials}
+              </span>
               <span style={{ fontSize: 13, color: 'var(--ink-3)' }}>{ACCOUNT.firstName}</span>
             </span>
             <button
@@ -54,7 +61,10 @@ export default function Navbar() {
           </div>
         ) : (
           <div className="nav-account">
-            <Link href="/login" style={{ fontSize: 13, fontWeight: 500, color: 'var(--ink-3)', textDecoration: 'none' }}>
+            <Link
+              href="/login"
+              style={{ fontSize: 13, fontWeight: 500, color: 'var(--ink-3)', textDecoration: 'none' }}
+            >
               Log in
             </Link>
             <Link href="/register" className="btn btn-primary btn-sm">

@@ -1,4 +1,4 @@
-import { ReactNode } from 'react';
+import type { ReactNode } from 'react';
 
 export default function StateBlock({ title, text, children }: { title: string; text?: string; children?: ReactNode }) {
   return (

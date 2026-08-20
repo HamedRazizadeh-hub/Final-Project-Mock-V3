@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { useState } from 'react';
 import StateBlock from '@/components/StateBlock';
-import { CITIES, EMPLOYMENT_TYPES, EmploymentType, SKILL_LIBRARY, WORK_MODES, WorkMode } from '@/lib/jobs';
+import { CITIES, EMPLOYMENT_TYPES, type EmploymentType, SKILL_LIBRARY, WORK_MODES, type WorkMode } from '@/lib/jobs';
 import { useApp } from '@/lib/store';
 
 export default function ProfilePage() {
@@ -18,7 +18,9 @@ export default function ProfilePage() {
           title="Your Match Profile lives in your account."
           text="It's the information we use to understand which jobs fit you. Nothing is public."
         >
-          <Link href="/login" className="btn btn-primary">Continue with account →</Link>
+          <Link href="/login" className="btn btn-primary">
+            Continue with account →
+          </Link>
         </StateBlock>
       </div>
     );
@@ -34,21 +36,27 @@ export default function ProfilePage() {
   const toggle = <T extends string>(list: T[], value: T) =>
     list.includes(value) ? list.filter((item) => item !== value) : [...list, value];
 
-  const suggestions = SKILL_LIBRARY
-    .filter((skill) => !profile.skills.includes(skill) && skill.toLowerCase().includes(skillDraft.toLowerCase()))
-    .slice(0, 8);
+  const suggestions = SKILL_LIBRARY.filter(
+    (skill) => !profile.skills.includes(skill) && skill.toLowerCase().includes(skillDraft.toLowerCase()),
+  ).slice(0, 8);
 
   return (
     <div className="wrap wrap-narrow page">
       <div className="profile-head">
         <div>
-          <h1 className="display h1" style={{ marginBottom: 10 }}>Your Match Profile</h1>
-          <p className="lede" style={{ maxWidth: '44ch' }}>The information we use to understand which jobs fit you.</p>
+          <h1 className="display h1" style={{ marginBottom: 10 }}>
+            Your Match Profile
+          </h1>
+          <p className="lede" style={{ maxWidth: '44ch' }}>
+            The information we use to understand which jobs fit you.
+          </p>
         </div>
         <div style={{ minWidth: 200 }}>
           <p className="spread" style={{ alignItems: 'baseline' }}>
             <span className="label">Complete</span>
-            <span className="num" style={{ fontSize: 26 }}>{completion}%</span>
+            <span className="num" style={{ fontSize: 26 }}>
+              {completion}%
+            </span>
           </p>
           <div className="meter" style={{ marginTop: 10 }}>
             <span style={{ width: `${completion}%`, background: 'var(--plum-2)' }} />
@@ -84,10 +92,17 @@ export default function ProfilePage() {
               aria-label="Add a target role"
               placeholder="Add a role…"
               onChange={(event) => setRoleDraft(event.target.value)}
-              onKeyDown={(event) => { if (event.key === 'Enter') { event.preventDefault(); addRole(); } }}
+              onKeyDown={(event) => {
+                if (event.key === 'Enter') {
+                  event.preventDefault();
+                  addRole();
+                }
+              }}
               style={{ flex: 1, height: 40 }}
             />
-            <button type="button" className="btn btn-outline btn-sm" onClick={addRole}>Add</button>
+            <button type="button" className="btn btn-outline btn-sm" onClick={addRole}>
+              Add
+            </button>
           </div>
         </div>
       </section>
@@ -128,7 +143,10 @@ export default function ProfilePage() {
                   type="button"
                   className="chip"
                   key={skill}
-                  onClick={() => { patchProfile({ skills: [...profile.skills, skill] }); setSkillDraft(''); }}
+                  onClick={() => {
+                    patchProfile({ skills: [...profile.skills, skill] });
+                    setSkillDraft('');
+                  }}
                 >
                   + {skill}
                 </button>
@@ -165,7 +183,9 @@ export default function ProfilePage() {
         </div>
         <div className="stack" style={{ gap: 22, maxWidth: 520 }}>
           <div>
-            <p className="meta" style={{ marginBottom: 9, color: 'var(--ink-3)' }}>Work mode</p>
+            <p className="meta" style={{ marginBottom: 9, color: 'var(--ink-3)' }}>
+              Work mode
+            </p>
             <div className="chips">
               {WORK_MODES.map((mode) => (
                 <button
@@ -181,7 +201,9 @@ export default function ProfilePage() {
             </div>
           </div>
           <div>
-            <p className="meta" style={{ marginBottom: 9, color: 'var(--ink-3)' }}>Employment preference</p>
+            <p className="meta" style={{ marginBottom: 9, color: 'var(--ink-3)' }}>
+              Employment preference
+            </p>
             <div className="chips">
               {EMPLOYMENT_TYPES.map((type) => (
                 <button
@@ -189,7 +211,9 @@ export default function ProfilePage() {
                   className="chip"
                   key={type}
                   aria-pressed={profile.employmentTypes.includes(type)}
-                  onClick={() => patchProfile({ employmentTypes: toggle<EmploymentType>(profile.employmentTypes, type) })}
+                  onClick={() =>
+                    patchProfile({ employmentTypes: toggle<EmploymentType>(profile.employmentTypes, type) })
+                  }
                 >
                   {type}
                 </button>
@@ -197,11 +221,25 @@ export default function ProfilePage() {
             </div>
           </div>
           <div>
-            <p className="meta" style={{ marginBottom: 9, color: 'var(--ink-3)' }}>Years of relevant experience</p>
+            <p className="meta" style={{ marginBottom: 9, color: 'var(--ink-3)' }}>
+              Years of relevant experience
+            </p>
             <div className="stepper">
-              <button type="button" aria-label="Fewer years" onClick={() => patchProfile({ experienceYears: Math.max(0, profile.experienceYears - 1) })}>–</button>
+              <button
+                type="button"
+                aria-label="Fewer years"
+                onClick={() => patchProfile({ experienceYears: Math.max(0, profile.experienceYears - 1) })}
+              >
+                –
+              </button>
               <b className="num">{profile.experienceYears}</b>
-              <button type="button" aria-label="More years" onClick={() => patchProfile({ experienceYears: Math.min(30, profile.experienceYears + 1) })}>+</button>
+              <button
+                type="button"
+                aria-label="More years"
+                onClick={() => patchProfile({ experienceYears: Math.min(30, profile.experienceYears + 1) })}
+              >
+                +
+              </button>
             </div>
           </div>
         </div>
@@ -224,7 +262,11 @@ export default function ProfilePage() {
             />
           </label>
           <label className="check" style={{ fontSize: 14 }}>
-            <input type="checkbox" checked={profile.visaSponsorship} onChange={() => patchProfile({ visaSponsorship: !profile.visaSponsorship })} />
+            <input
+              type="checkbox"
+              checked={profile.visaSponsorship}
+              onChange={() => patchProfile({ visaSponsorship: !profile.visaSponsorship })}
+            />
             <span>I need visa sponsorship</span>
           </label>
         </div>
@@ -243,7 +285,9 @@ export default function ProfilePage() {
           <p style={{ margin: '8px 0 16px', fontSize: 14, color: 'var(--ink-3)' }}>
             Turn your profile into a professional resume for external applications.
           </p>
-          <Link href="/resume" className="btn btn-light btn-sm">Create Resume →</Link>
+          <Link href="/resume" className="btn btn-light btn-sm">
+            Create Resume →
+          </Link>
         </div>
       </section>
     </div>

@@ -1,8 +1,8 @@
 'use client';
 
-import { createContext, useCallback, useContext, useEffect, useMemo, useState, ReactNode } from 'react';
-import { BASE_SKILLS } from './jobs';
+import { createContext, type ReactNode, useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import type { EmploymentType, WorkMode } from './jobs';
+import { BASE_SKILLS } from './jobs';
 
 /* ── Product state, unchanged from V2 ────────────────────────────────────────
    Five job states, guest/member split, external apply, optional resume.
@@ -32,8 +32,8 @@ export type MatchProfile = {
   visaSponsorship: boolean;
 };
 
-export type ResumeExperience = { role: string; company: string; dates: string; description: string };
-export type ResumeEducation = { program: string; school: string; dates: string };
+export type ResumeExperience = { id: string; role: string; company: string; dates: string; description: string };
+export type ResumeEducation = { id: string; program: string; school: string; dates: string };
 
 export type Resume = {
   name: string;
@@ -86,10 +86,24 @@ const initialState: State = {
       'Frontend developer with four years building product interfaces in React. Looking for a hybrid senior role in or around Utrecht.',
     skills: BASE_SKILLS,
     experiences: [
-      { role: 'Frontend Developer', company: 'Demo Studio', dates: '2022 — now', description: 'Owned the component library and rebuilt the customer portal with a small product team.' },
-      { role: 'Junior Developer', company: 'Example Digital', dates: '2020 — 2022', description: 'Shipped marketing sites and internal tools, moved the team onto a shared design system.' },
+      {
+        id: 'exp-demo-1',
+        role: 'Frontend Developer',
+        company: 'Demo Studio',
+        dates: '2022 — now',
+        description: 'Owned the component library and rebuilt the customer portal with a small product team.',
+      },
+      {
+        id: 'exp-demo-2',
+        role: 'Junior Developer',
+        company: 'Example Digital',
+        dates: '2020 — 2022',
+        description: 'Shipped marketing sites and internal tools, moved the team onto a shared design system.',
+      },
     ],
-    education: [{ program: 'Software Engineering', school: 'Example University', dates: '2016 — 2020' }],
+    education: [
+      { id: 'edu-demo-1', program: 'Software Engineering', school: 'Example University', dates: '2016 — 2020' },
+    ],
   },
 };
 
@@ -112,7 +126,18 @@ function normalize(next: State): State {
   Object.entries(next.saved ?? {}).forEach(([id, status]) => {
     saved[id] = JOB_STATES.includes(status as JobState) ? (status as JobState) : 'SAVED';
   });
-  return { ...next, saved };
+  const resume = {
+    ...next.resume,
+    experiences: (next.resume.experiences ?? []).map((entry, index) => ({
+      ...entry,
+      id: entry.id ?? `exp-${index}`,
+    })),
+    education: (next.resume.education ?? []).map((entry, index) => ({
+      ...entry,
+      id: entry.id ?? `edu-${index}`,
+    })),
+  };
+  return { ...next, saved, resume };
 }
 
 export function AppProvider({ children }: { children: ReactNode }) {
@@ -150,8 +175,6 @@ export function AppProvider({ children }: { children: ReactNode }) {
       profile.workModes.length > 0,
       profile.employmentTypes.length > 0,
       profile.experienceYears > 0,
-      profile.salaryExpectation.trim().length > 0,
-      profile.visaSponsorship || profile.salaryExpectation.trim().length > 0,
     ];
 
     return {

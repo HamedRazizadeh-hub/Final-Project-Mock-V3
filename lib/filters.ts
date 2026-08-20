@@ -1,6 +1,6 @@
 import type { EmploymentType, Job, Level, WorkMode } from './jobs';
-import type { MatchProfile } from './store';
 import { relevanceRank, scoreJob } from './match';
+import type { MatchProfile } from './store';
 
 export type SortKey = 'Most relevant' | 'Best match' | 'Newest';
 export type PostedKey = 'Any time' | 'Last 24 hours' | 'Last 7 days' | 'Last 30 days';
@@ -36,7 +36,17 @@ const MAX_DAYS: Record<PostedKey, number> = {
 };
 
 function haystack(job: Job) {
-  return [job.field, job.title, job.company, job.city, job.workMode, job.employmentType, job.level, job.about, ...job.req]
+  return [
+    job.field,
+    job.title,
+    job.company,
+    job.city,
+    job.workMode,
+    job.employmentType,
+    job.level,
+    job.about,
+    ...job.req,
+  ]
     .join(' ')
     .toLowerCase();
 }
@@ -69,16 +79,23 @@ export type FilterToken = { label: string; clear: () => void };
 
 export function activeTokens(filters: Filters, set: (next: Filters) => void): FilterToken[] {
   const tokens: FilterToken[] = [];
-  if (filters.query.trim()) tokens.push({ label: `"${filters.query.trim()}"`, clear: () => set({ ...filters, query: '' }) });
-  filters.cities.forEach((city) =>
-    tokens.push({ label: city, clear: () => set({ ...filters, cities: filters.cities.filter((c) => c !== city) }) }),
-  );
-  filters.workModes.forEach((mode) =>
-    tokens.push({ label: mode, clear: () => set({ ...filters, workModes: filters.workModes.filter((m) => m !== mode) }) }),
-  );
-  if (filters.employmentType !== 'Any type') tokens.push({ label: filters.employmentType, clear: () => set({ ...filters, employmentType: 'Any type' }) });
-  if (filters.level !== 'All levels') tokens.push({ label: filters.level, clear: () => set({ ...filters, level: 'All levels' }) });
-  if (filters.posted !== 'Any time') tokens.push({ label: filters.posted, clear: () => set({ ...filters, posted: 'Any time' }) });
+  if (filters.query.trim())
+    tokens.push({ label: `"${filters.query.trim()}"`, clear: () => set({ ...filters, query: '' }) });
+  filters.cities.forEach((city) => {
+    tokens.push({ label: city, clear: () => set({ ...filters, cities: filters.cities.filter((c) => c !== city) }) });
+  });
+  filters.workModes.forEach((mode) => {
+    tokens.push({
+      label: mode,
+      clear: () => set({ ...filters, workModes: filters.workModes.filter((m) => m !== mode) }),
+    });
+  });
+  if (filters.employmentType !== 'Any type')
+    tokens.push({ label: filters.employmentType, clear: () => set({ ...filters, employmentType: 'Any type' }) });
+  if (filters.level !== 'All levels')
+    tokens.push({ label: filters.level, clear: () => set({ ...filters, level: 'All levels' }) });
+  if (filters.posted !== 'Any time')
+    tokens.push({ label: filters.posted, clear: () => set({ ...filters, posted: 'Any time' }) });
   if (filters.salaryOnly) tokens.push({ label: 'Salary listed', clear: () => set({ ...filters, salaryOnly: false }) });
   return tokens;
 }

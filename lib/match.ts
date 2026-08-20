@@ -2,7 +2,16 @@ import type { Job } from './jobs';
 import type { MatchProfile } from './store';
 
 export type MatchLabel = 'Strong match' | 'Fair match' | 'Lower match';
-export type BreakdownVerdict = 'Strong' | 'Partial' | 'Limited' | 'Match' | 'Adjacent' | 'Not stated' | 'Not provided' | 'Listed' | string;
+export type BreakdownVerdict =
+  | 'Strong'
+  | 'Partial'
+  | 'Limited'
+  | 'Match'
+  | 'Adjacent'
+  | 'Not stated'
+  | 'Not provided'
+  | 'Listed'
+  | string;
 
 export type BreakdownRow = {
   key: string;
@@ -60,11 +69,19 @@ export function scoreJob(job: Job, profile: MatchProfile): Score {
   ];
 
   const breakdown: BreakdownRow[] = [
-    { key: 'Skills', verdict: hasSkillData ? (match >= 75 ? 'Strong' : match >= 50 ? 'Partial' : 'Limited') : 'Not stated', tone: hasSkillData ? (match >= 50 ? 'good' : 'attention') : 'neutral' },
+    {
+      key: 'Skills',
+      verdict: hasSkillData ? (match >= 75 ? 'Strong' : match >= 50 ? 'Partial' : 'Limited') : 'Not stated',
+      tone: hasSkillData ? (match >= 50 ? 'good' : 'attention') : 'neutral',
+    },
     { key: 'Role', verdict: roleMatch ? 'Strong' : 'Adjacent', tone: roleMatch ? 'good' : 'neutral' },
     { key: 'Location', verdict: cityMatch ? 'Match' : job.city, tone: cityMatch ? 'good' : 'neutral' },
     { key: 'Work mode', verdict: workMatch ? 'Match' : job.workMode, tone: workMatch ? 'good' : 'neutral' },
-    { key: 'Experience', verdict: experienceMatch ? 'Match' : `${job.experienceYears}+ years asked`, tone: experienceMatch ? 'good' : 'attention' },
+    {
+      key: 'Experience',
+      verdict: experienceMatch ? 'Match' : `${job.experienceYears}+ years asked`,
+      tone: experienceMatch ? 'good' : 'attention',
+    },
     { key: 'Salary', verdict: job.salary ? 'Listed' : 'Not provided', tone: 'neutral' },
   ];
 

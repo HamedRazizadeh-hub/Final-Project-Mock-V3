@@ -1,8 +1,8 @@
 import type { Metadata } from 'next';
 import { Archivo, Newsreader } from 'next/font/google';
-import Navbar from '@/components/Navbar';
-import Footer from '@/components/Footer';
 import { AuthGateProvider } from '@/components/AuthGate';
+import Footer from '@/components/Footer';
+import Navbar from '@/components/Navbar';
 import { ToastProvider } from '@/components/Toast';
 import { AppProvider } from '@/lib/store';
 import './globals.css';

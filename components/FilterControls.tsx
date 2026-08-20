@@ -1,8 +1,8 @@
 'use client';
 
 import { useState } from 'react';
-import { CITIES, EMPLOYMENT_TYPES, EmploymentType, jobsPerCity, LEVELS, Level, WORK_MODES } from '@/lib/jobs';
-import { Filters, PostedKey } from '@/lib/filters';
+import type { Filters, PostedKey } from '@/lib/filters';
+import { CITIES, EMPLOYMENT_TYPES, type EmploymentType, jobsPerCity, LEVELS, type Level, WORK_MODES } from '@/lib/jobs';
 
 type Props = { filters: Filters; onChange: (next: Filters) => void; onClear: () => void; variant?: 'rail' | 'sheet' };
 
@@ -22,8 +22,12 @@ export default function FilterControls({ filters, onChange, onClear, variant = '
     <div>
       {sheet ? null : (
         <div className="rail-head">
-          <p className="label" style={{ color: 'var(--ink-3)' }}>Refine</p>
-          <button type="button" className="link-quiet" onClick={onClear}>Clear all</button>
+          <p className="label" style={{ color: 'var(--ink-3)' }}>
+            Refine
+          </p>
+          <button type="button" className="link-quiet" onClick={onClear}>
+            Clear all
+          </button>
         </div>
       )}
 
@@ -36,7 +40,12 @@ export default function FilterControls({ filters, onChange, onClear, variant = '
               type="button"
               aria-pressed={filters.workModes.includes(mode)}
               onClick={() =>
-                set('workModes', filters.workModes.includes(mode) ? filters.workModes.filter((m) => m !== mode) : [...filters.workModes, mode])
+                set(
+                  'workModes',
+                  filters.workModes.includes(mode)
+                    ? filters.workModes.filter((m) => m !== mode)
+                    : [...filters.workModes, mode],
+                )
               }
             >
               {mode}
@@ -50,7 +59,13 @@ export default function FilterControls({ filters, onChange, onClear, variant = '
         {sheet ? (
           <div className="chips">
             {CITIES.map((city) => (
-              <button key={city} type="button" className="chip" aria-pressed={filters.cities.includes(city)} onClick={() => toggleCity(city)}>
+              <button
+                key={city}
+                type="button"
+                className="chip"
+                aria-pressed={filters.cities.includes(city)}
+                onClick={() => toggleCity(city)}
+              >
                 {city}
               </button>
             ))}
@@ -72,7 +87,13 @@ export default function FilterControls({ filters, onChange, onClear, variant = '
         <p>Employment type</p>
         <div className="chips">
           {EMPLOYMENT.map((type) => (
-            <button key={type} type="button" className="chip" aria-pressed={filters.employmentType === type} onClick={() => set('employmentType', type)}>
+            <button
+              key={type}
+              type="button"
+              className="chip"
+              aria-pressed={filters.employmentType === type}
+              onClick={() => set('employmentType', type)}
+            >
               {type}
             </button>
           ))}
@@ -84,7 +105,13 @@ export default function FilterControls({ filters, onChange, onClear, variant = '
         {sheet ? (
           <div className="chips">
             {POSTED.map((option) => (
-              <button key={option} type="button" className="chip" aria-pressed={filters.posted === option} onClick={() => set('posted', option)}>
+              <button
+                key={option}
+                type="button"
+                className="chip"
+                aria-pressed={filters.posted === option}
+                onClick={() => set('posted', option)}
+              >
                 {option}
               </button>
             ))}
@@ -93,7 +120,12 @@ export default function FilterControls({ filters, onChange, onClear, variant = '
           <div className="stack" style={{ gap: 8 }}>
             {POSTED.map((option) => (
               <label key={option} className="check">
-                <input type="radio" name="posted" checked={filters.posted === option} onChange={() => set('posted', option)} />
+                <input
+                  type="radio"
+                  name="posted"
+                  checked={filters.posted === option}
+                  onChange={() => set('posted', option)}
+                />
                 <span>{option}</span>
               </label>
             ))}
@@ -102,8 +134,15 @@ export default function FilterControls({ filters, onChange, onClear, variant = '
       </div>
 
       <div className="rail-block">
-        {sheet ? <p>Experience &amp; salary</p> : (
-          <button type="button" className="rail-toggle" onClick={() => setMoreOpen((open) => !open)} aria-expanded={moreOpen}>
+        {sheet ? (
+          <p>Experience &amp; salary</p>
+        ) : (
+          <button
+            type="button"
+            className="rail-toggle"
+            onClick={() => setMoreOpen((open) => !open)}
+            aria-expanded={moreOpen}
+          >
             <span>Experience &amp; salary</span>
             <span style={{ color: 'var(--ink-4)' }}>{moreOpen ? '–' : '+'}</span>
           </button>
@@ -112,10 +151,18 @@ export default function FilterControls({ filters, onChange, onClear, variant = '
         {sheet || moreOpen ? (
           <div className="stack" style={{ gap: 18, marginTop: sheet ? 0 : 16 }}>
             <div>
-              <p className="meta" style={{ marginBottom: 9 }}>Seniority</p>
+              <p className="meta" style={{ marginBottom: 9 }}>
+                Seniority
+              </p>
               <div className="chips">
                 {SENIORITY.map((level) => (
-                  <button key={level} type="button" className="chip" aria-pressed={filters.level === level} onClick={() => set('level', level)}>
+                  <button
+                    key={level}
+                    type="button"
+                    className="chip"
+                    aria-pressed={filters.level === level}
+                    onClick={() => set('level', level)}
+                  >
                     {level}
                   </button>
                 ))}
@@ -123,10 +170,16 @@ export default function FilterControls({ filters, onChange, onClear, variant = '
             </div>
             <div>
               <label className="check">
-                <input type="checkbox" checked={filters.salaryOnly} onChange={() => set('salaryOnly', !filters.salaryOnly)} />
+                <input
+                  type="checkbox"
+                  checked={filters.salaryOnly}
+                  onChange={() => set('salaryOnly', !filters.salaryOnly)}
+                />
                 <span>Only listings with salary</span>
               </label>
-              <p className="small" style={{ marginTop: 8 }}>Salary is shown only where the listing states it.</p>
+              <p className="small" style={{ marginTop: 8 }}>
+                Salary is shown only where the listing states it.
+              </p>
             </div>
           </div>
         ) : null}

@@ -43,11 +43,26 @@ export default function AuthPanel({ mode }: { mode: 'login' | 'register' }) {
         >
           <label className="field">
             Email
-            <input className="input" type="email" required value={email} onChange={(event) => setEmail(event.target.value)} placeholder="you@example.com" />
+            <input
+              className="input"
+              type="email"
+              required
+              value={email}
+              onChange={(event) => setEmail(event.target.value)}
+              placeholder="you@example.com"
+            />
           </label>
           <label className="field">
             Password
-            <input className="input" type="password" required minLength={6} value={password} onChange={(event) => setPassword(event.target.value)} placeholder="At least 6 characters" />
+            <input
+              className="input"
+              type="password"
+              required
+              minLength={6}
+              value={password}
+              onChange={(event) => setPassword(event.target.value)}
+              placeholder="At least 6 characters"
+            />
           </label>
           <button type="submit" className="btn btn-primary btn-block">
             {register ? 'Create account →' : 'Log in →'}
@@ -56,9 +71,13 @@ export default function AuthPanel({ mode }: { mode: 'login' | 'register' }) {
 
         <p className="small" style={{ marginTop: 18 }}>
           {register ? (
-            <>Already have an account? <Link href="/login">Log in</Link></>
+            <>
+              Already have an account? <Link href="/login">Log in</Link>
+            </>
           ) : (
-            <>New to JobMatch? <Link href="/register">Create a free account</Link></>
+            <>
+              New to JobMatch? <Link href="/register">Create a free account</Link>
+            </>
           )}
         </p>
         <p className="small" style={{ marginTop: 10 }}>

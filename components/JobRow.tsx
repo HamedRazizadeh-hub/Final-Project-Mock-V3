@@ -1,8 +1,8 @@
 'use client';
 
-import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { Job, listingSignal } from '@/lib/jobs';
+import { useState } from 'react';
+import { type Job, listingSignal } from '@/lib/jobs';
 import { scoreJob } from '@/lib/match';
 import { useApp } from '@/lib/store';
 import { useAuthGate } from './AuthGate';
@@ -62,7 +62,9 @@ export default function JobRow({ job }: { job: Job }) {
             <span className="dot" style={{ background: SIGNAL_COLOR[signal.tone] }} />
             {signal.label}
           </span>
-          <span className="small" style={{ display: 'block', marginTop: 2 }}>{signal.detail}</span>
+          <span className="small" style={{ display: 'block', marginTop: 2 }}>
+            {signal.detail}
+          </span>
         </div>
 
         <button
@@ -77,7 +79,16 @@ export default function JobRow({ job }: { job: Job }) {
             toast(isSaved ? 'Removed from your pipeline' : 'Saved to your pipeline');
           }}
         >
-          <svg width="16" height="18" viewBox="0 0 16 18" fill={isSaved ? 'var(--plum)' : 'none'} stroke={isSaved ? 'var(--plum)' : 'var(--ink-5)'} strokeWidth="1.5">
+          <svg
+            aria-hidden="true"
+            focusable="false"
+            width="16"
+            height="18"
+            viewBox="0 0 16 18"
+            fill={isSaved ? 'var(--plum)' : 'none'}
+            stroke={isSaved ? 'var(--plum)' : 'var(--ink-5)'}
+            strokeWidth="1.5"
+          >
             <path d="M2 2.5h12v13l-6-4.2-6 4.2z" />
           </svg>
         </button>

@@ -28,15 +28,49 @@ export type Job = {
   requirements: string[];
 };
 
-export const CITIES = ['Amsterdam', 'Utrecht', 'Rotterdam', 'Eindhoven', 'Den Haag', 'Groningen', 'Tilburg', 'Maastricht'];
+export const CITIES = [
+  'Amsterdam',
+  'Utrecht',
+  'Rotterdam',
+  'Eindhoven',
+  'Den Haag',
+  'Groningen',
+  'Tilburg',
+  'Maastricht',
+];
 export const WORK_MODES: WorkMode[] = ['Remote', 'Hybrid', 'On-site'];
 export const EMPLOYMENT_TYPES: EmploymentType[] = ['Full-time', 'Part-time', 'Contract'];
 export const LEVELS: Level[] = ['Junior', 'Mid', 'Senior'];
 
 const COMPANIES = [
-  'Mollie', 'Adyen', 'Picnic', 'Bunq', 'WeTransfer', 'Coolblue', 'Eneco', 'DEPT', 'Booking.com', 'TomTom',
-  'Bol.com', 'KPN', 'ASML', 'ING', 'Philips', 'Randstad', 'Exact', 'MessageBird', 'Swapfiets', 'Felyx',
-  'Rituals', 'Tony Chocolonely', 'VanMoof Labs', 'NN Group', 'PostNL', 'Takeaway', 'Backbase', 'Elastic',
+  'Mollie',
+  'Adyen',
+  'Picnic',
+  'Bunq',
+  'WeTransfer',
+  'Coolblue',
+  'Eneco',
+  'DEPT',
+  'Booking.com',
+  'TomTom',
+  'Bol.com',
+  'KPN',
+  'ASML',
+  'ING',
+  'Philips',
+  'Randstad',
+  'Exact',
+  'MessageBird',
+  'Swapfiets',
+  'Felyx',
+  'Rituals',
+  'Tony Chocolonely',
+  'VanMoof Labs',
+  'NN Group',
+  'PostNL',
+  'Takeaway',
+  'Backbase',
+  'Elastic',
 ];
 const CYCLE_WORK: WorkMode[] = ['Hybrid', 'Remote', 'On-site'];
 const CYCLE_EMPLOYMENT: EmploymentType[] = ['Full-time', 'Full-time', 'Contract', 'Part-time'];
@@ -60,28 +94,219 @@ type JobGroup = {
 };
 
 const GROUPS: JobGroup[] = [
-  { key: 'Frontend', count: 10, titles: ['Frontend Developer', 'React Developer', 'UI Developer', 'Next.js Engineer', 'Senior Frontend Developer'], skills: ['React', 'TypeScript', 'JavaScript', 'CSS', 'HTML', 'Next.js', 'Testing', 'Design systems'], about: 'Build polished product interfaces, reusable components and accessible user flows for customer-facing platforms.', requirements: ['Strong frontend fundamentals', 'Experience with component-based UI', 'Care for accessibility and performance'] },
-  { key: 'Backend', count: 8, titles: ['Backend Developer', 'Node.js Engineer', 'API Developer', 'Platform Backend Engineer'], skills: ['Node.js', 'TypeScript', 'PostgreSQL', 'Docker', 'GraphQL', 'Azure'], about: 'Design APIs, data models and service integrations used by product and operations teams.', requirements: ['Experience building production APIs', 'Comfortable with databases', 'Writes maintainable backend services'] },
-  { key: 'Full-stack', count: 12, titles: ['Full-stack Developer', 'Product Engineer', 'Full-stack TypeScript Engineer', 'SaaS Engineer'], skills: ['React', 'Node.js', 'TypeScript', 'PostgreSQL', 'Testing', 'Docker'], about: 'Work across frontend and backend features from discovery through release.', requirements: ['Comfortable across the stack', 'Can ship features end to end', 'Collaborates closely with product teams'] },
-  { key: 'Data', count: 16, titles: ['Data Analyst', 'BI Analyst', 'Analytics Engineer', 'Data Engineer', 'Product Analyst'], skills: ['SQL', 'Python', 'Azure', 'PostgreSQL', 'Testing'], about: 'Turn business and product data into clear dashboards, analysis and reliable decision support.', requirements: ['Strong SQL skills', 'Can explain insights clearly', 'Experience with data quality checks'] },
-  { key: 'Cloud', count: 14, titles: ['Cloud Engineer', 'Azure Engineer', 'Cloud Support Engineer', 'Infrastructure Engineer'], skills: ['Azure', 'Docker', 'Node.js', 'SQL', 'Git'], about: 'Support cloud platforms, deployments and migration projects for growing product teams.', requirements: ['Cloud platform experience', 'Understands deployment workflows', 'Comfortable troubleshooting production issues'] },
-  { key: 'DevOps', count: 12, titles: ['DevOps Engineer', 'Site Reliability Engineer', 'CI/CD Engineer', 'Platform Operations Engineer'], skills: ['Docker', 'Azure', 'Git', 'Testing', 'Node.js'], about: 'Improve reliability, deployment automation and operational visibility across product systems.', requirements: ['Experience with CI/CD', 'Infrastructure troubleshooting skills', 'Focus on reliability and observability'] },
-  { key: 'QA', count: 10, titles: ['QA Engineer', 'Test Automation Engineer', 'Quality Analyst', 'Software Tester'], skills: ['Testing', 'JavaScript', 'TypeScript', 'Git', 'SQL'], about: 'Create test coverage, automate regression checks and help teams release with confidence.', requirements: ['Testing mindset', 'Experience with automated test suites', 'Clear bug reporting'] },
-  { key: 'Product', count: 10, titles: ['Product Manager', 'Associate Product Manager', 'Product Owner', 'Technical Product Manager'], skills: ['SQL', 'Design systems', 'Testing', 'Git'], about: 'Shape product priorities, coordinate delivery and keep teams focused on user outcomes.', requirements: ['Strong product judgement', 'Can work with engineering and design', 'Comfortable using data in decisions'] },
-  { key: 'UX', count: 9, titles: ['UX Designer', 'Product Designer', 'UX Researcher', 'Design Systems Designer'], skills: ['Design systems', 'CSS', 'HTML', 'React'], about: 'Design clear product experiences, test interaction patterns and improve usability across workflows.', requirements: ['Portfolio with product work', 'Strong interaction design', 'Comfortable collaborating with engineers'] },
-  { key: 'Marketing', count: 10, titles: ['Growth Marketer', 'SEO Specialist', 'Content Marketer', 'Marketing Analyst'], skills: ['SQL', 'HTML', 'CSS', 'Testing'], about: 'Plan campaigns, improve acquisition funnels and measure performance across digital channels.', requirements: ['Understands funnel metrics', 'Can run structured experiments', 'Writes clear campaign briefs'] },
-  { key: 'Sales', count: 10, titles: ['Account Executive', 'Sales Development Representative', 'Customer Success Manager', 'Partnership Manager'], skills: ['SQL', 'GraphQL'], about: 'Work with prospects and customers to understand needs, close opportunities and grow accounts.', requirements: ['Strong communication skills', 'Comfortable with CRM workflows', 'Commercial mindset'] },
-  { key: 'Support', count: 8, titles: ['Customer Support Specialist', 'Technical Support Specialist', 'Support Engineer', 'Client Operations Associate'], skills: ['SQL', 'HTML', 'CSS', 'Git'], about: 'Help customers solve issues, document recurring problems and improve support operations.', requirements: ['Patient customer communication', 'Structured troubleshooting', 'Can document support patterns'] },
-  { key: 'Finance', count: 8, titles: ['Financial Analyst', 'Business Controller', 'Finance Operations Analyst', 'Risk Analyst'], skills: ['SQL', 'Python', 'PostgreSQL'], about: 'Analyse financial performance, automate reporting and support planning decisions.', requirements: ['Analytical finance background', 'Comfortable with reporting data', 'Attention to detail'] },
-  { key: 'HR', count: 7, titles: ['Recruiter', 'People Operations Specialist', 'Talent Acquisition Partner', 'HR Coordinator'], skills: ['Testing', 'SQL'], about: 'Support hiring, onboarding and people operations for growing teams.', requirements: ['Organised hiring process skills', 'Clear stakeholder communication', 'Candidate-friendly mindset'] },
-  { key: 'Operations', count: 8, titles: ['Operations Analyst', 'Business Operations Specialist', 'Process Improvement Lead', 'Logistics Coordinator'], skills: ['SQL', 'Python', 'Testing'], about: 'Improve internal workflows, monitor operational metrics and coordinate cross-team execution.', requirements: ['Operational problem solving', 'Comfortable with spreadsheets and data', 'Process improvement mindset'] },
-  { key: 'Security', count: 7, titles: ['Security Engineer', 'Application Security Analyst', 'Cloud Security Specialist', 'Security Operations Engineer'], skills: ['Azure', 'Docker', 'Node.js', 'Git', 'Testing'], about: 'Improve application and cloud security while helping product teams ship responsibly.', requirements: ['Security fundamentals', 'Can review technical risk', 'Experience with secure delivery practices'] },
-  { key: 'Mobile', count: 8, titles: ['Mobile Developer', 'React Native Developer', 'iOS Product Engineer', 'Mobile QA Engineer'], skills: ['React Native', 'TypeScript', 'JavaScript', 'Testing', 'Git'], about: 'Build and improve mobile product experiences used by customers on the go.', requirements: ['Mobile app delivery experience', 'Strong debugging habits', 'Care for performance and release quality'] },
+  {
+    key: 'Frontend',
+    count: 10,
+    titles: ['Frontend Developer', 'React Developer', 'UI Developer', 'Next.js Engineer', 'Senior Frontend Developer'],
+    skills: ['React', 'TypeScript', 'JavaScript', 'CSS', 'HTML', 'Next.js', 'Testing', 'Design systems'],
+    about:
+      'Build polished product interfaces, reusable components and accessible user flows for customer-facing platforms.',
+    requirements: [
+      'Strong frontend fundamentals',
+      'Experience with component-based UI',
+      'Care for accessibility and performance',
+    ],
+  },
+  {
+    key: 'Backend',
+    count: 8,
+    titles: ['Backend Developer', 'Node.js Engineer', 'API Developer', 'Platform Backend Engineer'],
+    skills: ['Node.js', 'TypeScript', 'PostgreSQL', 'Docker', 'GraphQL', 'Azure'],
+    about: 'Design APIs, data models and service integrations used by product and operations teams.',
+    requirements: [
+      'Experience building production APIs',
+      'Comfortable with databases',
+      'Writes maintainable backend services',
+    ],
+  },
+  {
+    key: 'Full-stack',
+    count: 12,
+    titles: ['Full-stack Developer', 'Product Engineer', 'Full-stack TypeScript Engineer', 'SaaS Engineer'],
+    skills: ['React', 'Node.js', 'TypeScript', 'PostgreSQL', 'Testing', 'Docker'],
+    about: 'Work across frontend and backend features from discovery through release.',
+    requirements: [
+      'Comfortable across the stack',
+      'Can ship features end to end',
+      'Collaborates closely with product teams',
+    ],
+  },
+  {
+    key: 'Data',
+    count: 16,
+    titles: ['Data Analyst', 'BI Analyst', 'Analytics Engineer', 'Data Engineer', 'Product Analyst'],
+    skills: ['SQL', 'Python', 'Azure', 'PostgreSQL', 'Testing'],
+    about: 'Turn business and product data into clear dashboards, analysis and reliable decision support.',
+    requirements: ['Strong SQL skills', 'Can explain insights clearly', 'Experience with data quality checks'],
+  },
+  {
+    key: 'Cloud',
+    count: 14,
+    titles: ['Cloud Engineer', 'Azure Engineer', 'Cloud Support Engineer', 'Infrastructure Engineer'],
+    skills: ['Azure', 'Docker', 'Node.js', 'SQL', 'Git'],
+    about: 'Support cloud platforms, deployments and migration projects for growing product teams.',
+    requirements: [
+      'Cloud platform experience',
+      'Understands deployment workflows',
+      'Comfortable troubleshooting production issues',
+    ],
+  },
+  {
+    key: 'DevOps',
+    count: 12,
+    titles: ['DevOps Engineer', 'Site Reliability Engineer', 'CI/CD Engineer', 'Platform Operations Engineer'],
+    skills: ['Docker', 'Azure', 'Git', 'Testing', 'Node.js'],
+    about: 'Improve reliability, deployment automation and operational visibility across product systems.',
+    requirements: [
+      'Experience with CI/CD',
+      'Infrastructure troubleshooting skills',
+      'Focus on reliability and observability',
+    ],
+  },
+  {
+    key: 'QA',
+    count: 10,
+    titles: ['QA Engineer', 'Test Automation Engineer', 'Quality Analyst', 'Software Tester'],
+    skills: ['Testing', 'JavaScript', 'TypeScript', 'Git', 'SQL'],
+    about: 'Create test coverage, automate regression checks and help teams release with confidence.',
+    requirements: ['Testing mindset', 'Experience with automated test suites', 'Clear bug reporting'],
+  },
+  {
+    key: 'Product',
+    count: 10,
+    titles: ['Product Manager', 'Associate Product Manager', 'Product Owner', 'Technical Product Manager'],
+    skills: ['SQL', 'Design systems', 'Testing', 'Git'],
+    about: 'Shape product priorities, coordinate delivery and keep teams focused on user outcomes.',
+    requirements: [
+      'Strong product judgement',
+      'Can work with engineering and design',
+      'Comfortable using data in decisions',
+    ],
+  },
+  {
+    key: 'UX',
+    count: 9,
+    titles: ['UX Designer', 'Product Designer', 'UX Researcher', 'Design Systems Designer'],
+    skills: ['Design systems', 'CSS', 'HTML', 'React'],
+    about: 'Design clear product experiences, test interaction patterns and improve usability across workflows.',
+    requirements: [
+      'Portfolio with product work',
+      'Strong interaction design',
+      'Comfortable collaborating with engineers',
+    ],
+  },
+  {
+    key: 'Marketing',
+    count: 10,
+    titles: ['Growth Marketer', 'SEO Specialist', 'Content Marketer', 'Marketing Analyst'],
+    skills: ['SQL', 'HTML', 'CSS', 'Testing'],
+    about: 'Plan campaigns, improve acquisition funnels and measure performance across digital channels.',
+    requirements: ['Understands funnel metrics', 'Can run structured experiments', 'Writes clear campaign briefs'],
+  },
+  {
+    key: 'Sales',
+    count: 10,
+    titles: [
+      'Account Executive',
+      'Sales Development Representative',
+      'Customer Success Manager',
+      'Partnership Manager',
+    ],
+    skills: ['SQL', 'GraphQL'],
+    about: 'Work with prospects and customers to understand needs, close opportunities and grow accounts.',
+    requirements: ['Strong communication skills', 'Comfortable with CRM workflows', 'Commercial mindset'],
+  },
+  {
+    key: 'Support',
+    count: 8,
+    titles: [
+      'Customer Support Specialist',
+      'Technical Support Specialist',
+      'Support Engineer',
+      'Client Operations Associate',
+    ],
+    skills: ['SQL', 'HTML', 'CSS', 'Git'],
+    about: 'Help customers solve issues, document recurring problems and improve support operations.',
+    requirements: ['Patient customer communication', 'Structured troubleshooting', 'Can document support patterns'],
+  },
+  {
+    key: 'Finance',
+    count: 8,
+    titles: ['Financial Analyst', 'Business Controller', 'Finance Operations Analyst', 'Risk Analyst'],
+    skills: ['SQL', 'Python', 'PostgreSQL'],
+    about: 'Analyse financial performance, automate reporting and support planning decisions.',
+    requirements: ['Analytical finance background', 'Comfortable with reporting data', 'Attention to detail'],
+  },
+  {
+    key: 'HR',
+    count: 7,
+    titles: ['Recruiter', 'People Operations Specialist', 'Talent Acquisition Partner', 'HR Coordinator'],
+    skills: ['Testing', 'SQL'],
+    about: 'Support hiring, onboarding and people operations for growing teams.',
+    requirements: ['Organised hiring process skills', 'Clear stakeholder communication', 'Candidate-friendly mindset'],
+  },
+  {
+    key: 'Operations',
+    count: 8,
+    titles: [
+      'Operations Analyst',
+      'Business Operations Specialist',
+      'Process Improvement Lead',
+      'Logistics Coordinator',
+    ],
+    skills: ['SQL', 'Python', 'Testing'],
+    about: 'Improve internal workflows, monitor operational metrics and coordinate cross-team execution.',
+    requirements: [
+      'Operational problem solving',
+      'Comfortable with spreadsheets and data',
+      'Process improvement mindset',
+    ],
+  },
+  {
+    key: 'Security',
+    count: 7,
+    titles: [
+      'Security Engineer',
+      'Application Security Analyst',
+      'Cloud Security Specialist',
+      'Security Operations Engineer',
+    ],
+    skills: ['Azure', 'Docker', 'Node.js', 'Git', 'Testing'],
+    about: 'Improve application and cloud security while helping product teams ship responsibly.',
+    requirements: ['Security fundamentals', 'Can review technical risk', 'Experience with secure delivery practices'],
+  },
+  {
+    key: 'Mobile',
+    count: 8,
+    titles: ['Mobile Developer', 'React Native Developer', 'iOS Product Engineer', 'Mobile QA Engineer'],
+    skills: ['React Native', 'TypeScript', 'JavaScript', 'Testing', 'Git'],
+    about: 'Build and improve mobile product experiences used by customers on the go.',
+    requirements: [
+      'Mobile app delivery experience',
+      'Strong debugging habits',
+      'Care for performance and release quality',
+    ],
+  },
 ];
 
 export const SKILL_LIBRARY = [
-  'React', 'TypeScript', 'CSS', 'JavaScript', 'HTML', 'Git', 'Next.js', 'Testing', 'Node.js',
-  'PostgreSQL', 'Docker', 'React Native', 'Design systems', 'GraphQL', 'Python', 'SQL', 'Azure',
+  'React',
+  'TypeScript',
+  'CSS',
+  'JavaScript',
+  'HTML',
+  'Git',
+  'Next.js',
+  'Testing',
+  'Node.js',
+  'PostgreSQL',
+  'Docker',
+  'React Native',
+  'Design systems',
+  'GraphQL',
+  'Python',
+  'SQL',
+  'Azure',
 ];
 
 export const BASE_SKILLS = ['React', 'CSS', 'JavaScript', 'HTML', 'Git'];
@@ -94,7 +319,12 @@ function postedLabel(days: number) {
 }
 
 function initialsOf(company: string) {
-  return company.split(/\s+/).map((part) => part[0]).join('').slice(0, 2).toUpperCase();
+  return company
+    .split(/\s+/)
+    .map((part) => part[0])
+    .join('')
+    .slice(0, 2)
+    .toUpperCase();
 }
 
 function salaryFor(index: number, level: Level, employmentType: EmploymentType) {
@@ -173,11 +403,15 @@ export type ListingSignal = {
 export function listingSignal(job: Job): ListingSignal {
   const tone: SignalTone = job.days <= 7 ? 'fresh' : job.days <= 30 ? 'watch' : 'old';
   const label =
-    job.days <= 2 ? 'Recently verified'
-      : job.days <= 7 ? 'Fresh'
-      : job.days <= 30 ? 'Worth checking'
-      : (job.reposts ?? 0) > 1 ? 'Frequently reposted'
-      : 'Older listing';
+    job.days <= 2
+      ? 'Recently verified'
+      : job.days <= 7
+        ? 'Fresh'
+        : job.days <= 30
+          ? 'Worth checking'
+          : (job.reposts ?? 0) > 1
+            ? 'Frequently reposted'
+            : 'Older listing';
 
   const lines = [`Posted ${job.posted.toLowerCase()}`];
   if (job.activeSignal) lines.push('Refreshed by the employer recently');

@@ -17,7 +17,13 @@ const TONES: Record<NonNullable<MarkProps['tone']>, [string, string, number]> = 
 export function Mark({ size = 24, tone = 'brand' }: MarkProps) {
   const [a, b, opacity] = TONES[tone];
   return (
-    <svg width={size} height={size} viewBox="0 0 32 32" aria-hidden="true" style={{ display: 'block', flex: '0 0 auto' }}>
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 32 32"
+      aria-hidden="true"
+      style={{ display: 'block', flex: '0 0 auto' }}
+    >
       <path d={LEFT} fill={a} />
       <path d={RIGHT} fill={b} opacity={opacity} />
     </svg>
