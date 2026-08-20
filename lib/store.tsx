@@ -57,10 +57,10 @@ type State = {
 const STORAGE_KEY = 'jobmatch.v3.state';
 
 export const ACCOUNT = {
-  name: 'Hamed Razizadeh',
-  firstName: 'Hamed',
-  initials: 'HR',
-  email: 'hamed.razizadeh@gmail.com',
+  name: 'Alex Morgan',
+  firstName: 'Alex',
+  initials: 'AM',
+  email: 'alex.morgan@example.com',
 };
 
 const initialState: State = {
@@ -79,17 +79,17 @@ const initialState: State = {
   resume: {
     name: ACCOUNT.name,
     email: ACCOUNT.email,
-    phone: '+31 6 1234 5678',
+    phone: '+31 6 0000 0000',
     city: 'Utrecht, Netherlands',
     role: 'Frontend Developer',
     summary:
       'Frontend developer with four years building product interfaces in React. Looking for a hybrid senior role in or around Utrecht.',
     skills: BASE_SKILLS,
     experiences: [
-      { role: 'Frontend Developer', company: 'Studio Kade', dates: '2022 — now', description: 'Owned the component library and rebuilt the customer portal with a small product team.' },
-      { role: 'Junior Developer', company: 'Vinkel Digital', dates: '2020 — 2022', description: 'Shipped marketing sites and internal tools, moved the team onto a shared design system.' },
+      { role: 'Frontend Developer', company: 'Demo Studio', dates: '2022 — now', description: 'Owned the component library and rebuilt the customer portal with a small product team.' },
+      { role: 'Junior Developer', company: 'Example Digital', dates: '2020 — 2022', description: 'Shipped marketing sites and internal tools, moved the team onto a shared design system.' },
     ],
-    education: [{ program: 'HBO-ICT, Software Engineering', school: 'Hogeschool Utrecht', dates: '2016 — 2020' }],
+    education: [{ program: 'Software Engineering', school: 'Example University', dates: '2016 — 2020' }],
   },
 };
 
