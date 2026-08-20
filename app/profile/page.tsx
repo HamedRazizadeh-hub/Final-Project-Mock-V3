@@ -39,6 +39,7 @@ export default function ProfilePage() {
   const suggestions = SKILL_LIBRARY.filter(
     (skill) => !profile.skills.includes(skill) && skill.toLowerCase().includes(skillDraft.toLowerCase()),
   ).slice(0, 8);
+  const hasExperienceAnswer = profile.experienceYears !== null;
   const experienceYears = profile.experienceYears ?? 0;
 
   return (
@@ -233,7 +234,12 @@ export default function ProfilePage() {
               >
                 –
               </button>
-              <b className="num">{experienceYears}</b>
+              <output
+                className="num"
+                aria-label={hasExperienceAnswer ? `${experienceYears} years` : 'Experience not answered'}
+              >
+                {hasExperienceAnswer ? experienceYears : '—'}
+              </output>
               <button
                 type="button"
                 aria-label="More years"
