@@ -386,6 +386,10 @@ button {
   border-color: var(--plum);
   color: var(--bg);
 }
+.chip:disabled {
+  cursor: default;
+  opacity: 1;
+}
 .chip-static {
   cursor: default;
 }
@@ -463,6 +467,10 @@ button {
   height: 15px;
   accent-color: var(--plum);
   cursor: pointer;
+}
+.check input:disabled {
+  cursor: default;
+  opacity: 1;
 }
 .check-count {
   margin-left: auto;
@@ -1096,6 +1104,10 @@ button {
   background: var(--surface);
   font-size: 16px;
   cursor: pointer;
+}
+.stepper button:disabled {
+  cursor: default;
+  opacity: 1;
 }
 .stepper b,
 .stepper output {

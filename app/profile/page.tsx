@@ -1,15 +1,34 @@
 'use client';
 
 import Link from 'next/link';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import StateBlock from '@/components/StateBlock';
 import { CITIES, EMPLOYMENT_TYPES, type EmploymentType, SKILL_LIBRARY, WORK_MODES, type WorkMode } from '@/lib/jobs';
-import { useApp } from '@/lib/store';
+import { type MatchProfile, useApp } from '@/lib/store';
+
+function completionFor(profile: MatchProfile) {
+  const checks = [
+    profile.roles.length > 0,
+    profile.skills.length > 0,
+    profile.cities.length > 0,
+    profile.workModes.length > 0,
+    profile.employmentTypes.length > 0,
+    profile.experienceYears !== null,
+  ];
+
+  return Math.round((checks.filter(Boolean).length / checks.length) * 100);
+}
 
 export default function ProfilePage() {
   const { loggedIn, profile, patchProfile, completion } = useApp();
+  const [editing, setEditing] = useState(false);
+  const [draftProfile, setDraftProfile] = useState<MatchProfile>(profile);
   const [roleDraft, setRoleDraft] = useState('');
   const [skillDraft, setSkillDraft] = useState('');
+
+  useEffect(() => {
+    if (!editing) setDraftProfile(profile);
+  }, [editing, profile]);
 
   if (!loggedIn) {
     return (
@@ -28,19 +47,37 @@ export default function ProfilePage() {
 
   const addRole = () => {
     const value = roleDraft.trim();
-    if (!value || profile.roles.includes(value)) return;
-    patchProfile({ roles: [...profile.roles, value] });
+    if (!editing || !value || draftProfile.roles.includes(value)) return;
+    setDraftProfile((current) => ({ ...current, roles: [...current.roles, value] }));
     setRoleDraft('');
   };
+
+  const saveProfile = () => {
+    patchProfile(draftProfile);
+    setRoleDraft('');
+    setSkillDraft('');
+    setEditing(false);
+  };
+
+  const cancelEditing = () => {
+    setDraftProfile(profile);
+    setRoleDraft('');
+    setSkillDraft('');
+    setEditing(false);
+  };
+
+  const updateDraft = (patch: Partial<MatchProfile>) => setDraftProfile((current) => ({ ...current, ...patch }));
 
   const toggle = <T extends string>(list: T[], value: T) =>
     list.includes(value) ? list.filter((item) => item !== value) : [...list, value];
 
   const suggestions = SKILL_LIBRARY.filter(
-    (skill) => !profile.skills.includes(skill) && skill.toLowerCase().includes(skillDraft.toLowerCase()),
+    (skill) => !draftProfile.skills.includes(skill) && skill.toLowerCase().includes(skillDraft.toLowerCase()),
   ).slice(0, 8);
-  const hasExperienceAnswer = profile.experienceYears !== null;
-  const experienceYears = profile.experienceYears ?? 0;
+  const visibleProfile = editing ? draftProfile : profile;
+  const visibleCompletion = editing ? completionFor(draftProfile) : completion;
+  const hasExperienceAnswer = visibleProfile.experienceYears !== null;
+  const experienceYears = visibleProfile.experienceYears ?? 0;
 
   return (
     <div className="wrap wrap-narrow page">
@@ -57,11 +94,27 @@ export default function ProfilePage() {
           <p className="spread" style={{ alignItems: 'baseline' }}>
             <span className="label">Complete</span>
             <span className="num" style={{ fontSize: 26 }}>
-              {completion}%
+              {visibleCompletion}%
             </span>
           </p>
           <div className="meter" style={{ marginTop: 10 }}>
-            <span style={{ width: `${completion}%`, background: 'var(--plum-2)' }} />
+            <span style={{ width: `${visibleCompletion}%`, background: 'var(--plum-2)' }} />
+          </div>
+          <div className="row" style={{ gap: 8, marginTop: 18, justifyContent: 'flex-end' }}>
+            {editing ? (
+              <>
+                <button type="button" className="btn btn-primary btn-sm" onClick={saveProfile}>
+                  Save
+                </button>
+                <button type="button" className="btn btn-outline btn-sm" onClick={cancelEditing}>
+                  Cancel
+                </button>
+              </>
+            ) : (
+              <button type="button" className="btn btn-outline btn-sm" onClick={() => setEditing(true)}>
+                Edit profile
+              </button>
+            )}
           </div>
         </div>
       </div>
@@ -73,39 +126,43 @@ export default function ProfilePage() {
         </div>
         <div>
           <div className="chips">
-            {profile.roles.map((role) => (
+            {visibleProfile.roles.map((role) => (
               <span className="chip chip-static" key={role}>
                 {role}
-                <button
-                  type="button"
-                  className="chip-remove"
-                  aria-label={`Remove ${role}`}
-                  onClick={() => patchProfile({ roles: profile.roles.filter((item) => item !== role) })}
-                >
-                  ×
-                </button>
+                {editing ? (
+                  <button
+                    type="button"
+                    className="chip-remove"
+                    aria-label={`Remove ${role}`}
+                    onClick={() => updateDraft({ roles: draftProfile.roles.filter((item) => item !== role) })}
+                  >
+                    ×
+                  </button>
+                ) : null}
               </span>
             ))}
           </div>
-          <div className="row" style={{ gap: 8, marginTop: 12, maxWidth: 420 }}>
-            <input
-              className="input"
-              value={roleDraft}
-              aria-label="Add a target role"
-              placeholder="Add a role…"
-              onChange={(event) => setRoleDraft(event.target.value)}
-              onKeyDown={(event) => {
-                if (event.key === 'Enter') {
-                  event.preventDefault();
-                  addRole();
-                }
-              }}
-              style={{ flex: 1, height: 40 }}
-            />
-            <button type="button" className="btn btn-outline btn-sm" onClick={addRole}>
-              Add
-            </button>
-          </div>
+          {editing ? (
+            <div className="row" style={{ gap: 8, marginTop: 12, maxWidth: 420 }}>
+              <input
+                className="input"
+                value={roleDraft}
+                aria-label="Add a target role"
+                placeholder="Add a role…"
+                onChange={(event) => setRoleDraft(event.target.value)}
+                onKeyDown={(event) => {
+                  if (event.key === 'Enter') {
+                    event.preventDefault();
+                    addRole();
+                  }
+                }}
+                style={{ flex: 1, height: 40 }}
+              />
+              <button type="button" className="btn btn-outline btn-sm" onClick={addRole}>
+                Add
+              </button>
+            </div>
+          ) : null}
         </div>
       </section>
 
@@ -116,44 +173,50 @@ export default function ProfilePage() {
         </div>
         <div>
           <div className="chips">
-            {profile.skills.map((skill) => (
+            {visibleProfile.skills.map((skill) => (
               <span className="chip chip-have" key={skill}>
                 {skill}
-                <button
-                  type="button"
-                  className="chip-remove"
-                  aria-label={`Remove ${skill}`}
-                  onClick={() => patchProfile({ skills: profile.skills.filter((item) => item !== skill) })}
-                >
-                  ×
-                </button>
+                {editing ? (
+                  <button
+                    type="button"
+                    className="chip-remove"
+                    aria-label={`Remove ${skill}`}
+                    onClick={() => updateDraft({ skills: draftProfile.skills.filter((item) => item !== skill) })}
+                  >
+                    ×
+                  </button>
+                ) : null}
               </span>
             ))}
           </div>
-          <input
-            className="input"
-            value={skillDraft}
-            aria-label="Search skills"
-            placeholder="Search skills to add…"
-            onChange={(event) => setSkillDraft(event.target.value)}
-            style={{ maxWidth: 420, height: 40, marginTop: 12 }}
-          />
-          {suggestions.length > 0 ? (
-            <div className="chips" style={{ marginTop: 10 }}>
-              {suggestions.map((skill) => (
-                <button
-                  type="button"
-                  className="chip"
-                  key={skill}
-                  onClick={() => {
-                    patchProfile({ skills: [...profile.skills, skill] });
-                    setSkillDraft('');
-                  }}
-                >
-                  + {skill}
-                </button>
-              ))}
-            </div>
+          {editing ? (
+            <>
+              <input
+                className="input"
+                value={skillDraft}
+                aria-label="Search skills"
+                placeholder="Search skills to add…"
+                onChange={(event) => setSkillDraft(event.target.value)}
+                style={{ maxWidth: 420, height: 40, marginTop: 12 }}
+              />
+              {suggestions.length > 0 ? (
+                <div className="chips" style={{ marginTop: 10 }}>
+                  {suggestions.map((skill) => (
+                    <button
+                      type="button"
+                      className="chip"
+                      key={skill}
+                      onClick={() => {
+                        updateDraft({ skills: [...draftProfile.skills, skill] });
+                        setSkillDraft('');
+                      }}
+                    >
+                      + {skill}
+                    </button>
+                  ))}
+                </div>
+              ) : null}
+            </>
           ) : null}
         </div>
       </section>
@@ -169,8 +232,9 @@ export default function ProfilePage() {
               type="button"
               className="chip"
               key={city}
-              aria-pressed={profile.cities.includes(city)}
-              onClick={() => patchProfile({ cities: toggle(profile.cities, city) })}
+              aria-pressed={visibleProfile.cities.includes(city)}
+              disabled={!editing}
+              onClick={() => updateDraft({ cities: toggle(draftProfile.cities, city) })}
             >
               {city}
             </button>
@@ -194,8 +258,9 @@ export default function ProfilePage() {
                   type="button"
                   className="chip"
                   key={mode}
-                  aria-pressed={profile.workModes.includes(mode)}
-                  onClick={() => patchProfile({ workModes: toggle<WorkMode>(profile.workModes, mode) })}
+                  aria-pressed={visibleProfile.workModes.includes(mode)}
+                  disabled={!editing}
+                  onClick={() => updateDraft({ workModes: toggle<WorkMode>(draftProfile.workModes, mode) })}
                 >
                   {mode}
                 </button>
@@ -212,9 +277,10 @@ export default function ProfilePage() {
                   type="button"
                   className="chip"
                   key={type}
-                  aria-pressed={profile.employmentTypes.includes(type)}
+                  aria-pressed={visibleProfile.employmentTypes.includes(type)}
+                  disabled={!editing}
                   onClick={() =>
-                    patchProfile({ employmentTypes: toggle<EmploymentType>(profile.employmentTypes, type) })
+                    updateDraft({ employmentTypes: toggle<EmploymentType>(draftProfile.employmentTypes, type) })
                   }
                 >
                   {type}
@@ -230,7 +296,8 @@ export default function ProfilePage() {
               <button
                 type="button"
                 aria-label="Fewer years"
-                onClick={() => patchProfile({ experienceYears: Math.max(0, experienceYears - 1) })}
+                disabled={!editing}
+                onClick={() => updateDraft({ experienceYears: Math.max(0, experienceYears - 1) })}
               >
                 –
               </button>
@@ -243,7 +310,8 @@ export default function ProfilePage() {
               <button
                 type="button"
                 aria-label="More years"
-                onClick={() => patchProfile({ experienceYears: Math.min(30, experienceYears + 1) })}
+                disabled={!editing}
+                onClick={() => updateDraft({ experienceYears: Math.min(30, experienceYears + 1) })}
               >
                 +
               </button>
@@ -262,17 +330,19 @@ export default function ProfilePage() {
             Salary expectation
             <input
               className="input"
-              value={profile.salaryExpectation}
+              value={visibleProfile.salaryExpectation}
               placeholder="e.g. EUR 58k minimum"
-              onChange={(event) => patchProfile({ salaryExpectation: event.target.value })}
+              readOnly={!editing}
+              onChange={(event) => updateDraft({ salaryExpectation: event.target.value })}
               style={{ height: 40 }}
             />
           </label>
           <label className="check" style={{ fontSize: 14 }}>
             <input
               type="checkbox"
-              checked={profile.visaSponsorship}
-              onChange={() => patchProfile({ visaSponsorship: !profile.visaSponsorship })}
+              checked={visibleProfile.visaSponsorship}
+              disabled={!editing}
+              onChange={() => updateDraft({ visaSponsorship: !draftProfile.visaSponsorship })}
             />
             <span>I need visa sponsorship</span>
           </label>
