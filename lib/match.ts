@@ -48,7 +48,9 @@ export function scoreJob(job: Job, profile: MatchProfile): Score {
   const cityMatch = profile.cities.includes(job.city);
   const workMatch = profile.workModes.includes(job.workMode);
   const employmentMatch = profile.employmentTypes.includes(job.employmentType);
-  const experienceMatch = job.experienceYears <= profile.experienceYears;
+  const experienceYears = profile.experienceYears;
+  const hasExperienceData = experienceYears !== null;
+  const experienceMatch = hasExperienceData && job.experienceYears <= experienceYears;
   const roleMatch = profile.roles.some((role) => {
     const head = role.split(' ')[0].toLowerCase();
     return job.title.toLowerCase().includes(head);
@@ -79,8 +81,8 @@ export function scoreJob(job: Job, profile: MatchProfile): Score {
     { key: 'Work mode', verdict: workMatch ? 'Match' : job.workMode, tone: workMatch ? 'good' : 'neutral' },
     {
       key: 'Experience',
-      verdict: experienceMatch ? 'Match' : `${job.experienceYears}+ years asked`,
-      tone: experienceMatch ? 'good' : 'attention',
+      verdict: !hasExperienceData ? 'Not provided' : experienceMatch ? 'Match' : `${job.experienceYears}+ years asked`,
+      tone: !hasExperienceData ? 'neutral' : experienceMatch ? 'good' : 'attention',
     },
     { key: 'Salary', verdict: job.salary ? 'Listed' : 'Not provided', tone: 'neutral' },
   ];

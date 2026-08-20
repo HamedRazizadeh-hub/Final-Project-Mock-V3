@@ -27,7 +27,7 @@ export type MatchProfile = {
   cities: string[];
   workModes: WorkMode[];
   employmentTypes: EmploymentType[];
-  experienceYears: number;
+  experienceYears: number | null;
   salaryExpectation: string;
   visaSponsorship: boolean;
 };
@@ -137,7 +137,11 @@ function normalize(next: State): State {
       id: entry.id ?? `edu-${index}`,
     })),
   };
-  return { ...next, saved, resume };
+  const profile = {
+    ...next.profile,
+    experienceYears: next.profile.experienceYears ?? null,
+  };
+  return { ...next, profile, saved, resume };
 }
 
 export function AppProvider({ children }: { children: ReactNode }) {
@@ -174,7 +178,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
       profile.cities.length > 0,
       profile.workModes.length > 0,
       profile.employmentTypes.length > 0,
-      profile.experienceYears > 0,
+      profile.experienceYears !== null,
     ];
 
     return {

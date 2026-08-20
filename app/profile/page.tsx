@@ -39,6 +39,7 @@ export default function ProfilePage() {
   const suggestions = SKILL_LIBRARY.filter(
     (skill) => !profile.skills.includes(skill) && skill.toLowerCase().includes(skillDraft.toLowerCase()),
   ).slice(0, 8);
+  const experienceYears = profile.experienceYears ?? 0;
 
   return (
     <div className="wrap wrap-narrow page">
@@ -228,15 +229,15 @@ export default function ProfilePage() {
               <button
                 type="button"
                 aria-label="Fewer years"
-                onClick={() => patchProfile({ experienceYears: Math.max(0, profile.experienceYears - 1) })}
+                onClick={() => patchProfile({ experienceYears: Math.max(0, experienceYears - 1) })}
               >
                 –
               </button>
-              <b className="num">{profile.experienceYears}</b>
+              <b className="num">{experienceYears}</b>
               <button
                 type="button"
                 aria-label="More years"
-                onClick={() => patchProfile({ experienceYears: Math.min(30, profile.experienceYears + 1) })}
+                onClick={() => patchProfile({ experienceYears: Math.min(30, experienceYears + 1) })}
               >
                 +
               </button>
