@@ -48,9 +48,8 @@ export type Resume = {
 };
 
 export type Account = {
-  name: string;
   firstName: string;
-  initials: string;
+  lastName: string;
   email: string;
 };
 
@@ -65,9 +64,8 @@ type State = {
 const STORAGE_KEY = 'jobmatch.v3.state';
 
 export const ACCOUNT = {
-  name: 'Alex Morgan',
   firstName: 'Alex',
-  initials: 'AM',
+  lastName: 'Morgan',
   email: 'alex.morgan@example.com',
 };
 
@@ -75,24 +73,22 @@ function titleCase(value: string) {
   return value.charAt(0).toUpperCase() + value.slice(1).toLowerCase();
 }
 
-function accountFromEmail(email: string): Account {
+export function accountInitials(account: Account) {
+  return `${account.firstName[0] ?? ''}${account.lastName[0] ?? ''}`.toUpperCase() || 'JM';
+}
+
+function accountFromEmail(email: string, firstName?: string, lastName?: string): Account {
   const normalizedEmail = email.trim().toLowerCase();
   const localPart = normalizedEmail.split('@')[0] || ACCOUNT.firstName.toLowerCase();
   const parts = localPart
     .split(/[._-]+/)
     .map((part) => part.replace(/[^a-z0-9]/gi, ''))
     .filter(Boolean);
-  const names = parts.length > 0 ? parts.map(titleCase) : [ACCOUNT.firstName];
-  const initials = names
-    .slice(0, 2)
-    .map((name) => name[0])
-    .join('')
-    .toUpperCase();
+  const fallbackNames = parts.length > 0 ? parts.map(titleCase) : [ACCOUNT.firstName, ACCOUNT.lastName];
 
   return {
-    name: names.join(' '),
-    firstName: names[0],
-    initials: initials || ACCOUNT.initials,
+    firstName: firstName?.trim() || fallbackNames[0],
+    lastName: lastName?.trim() || fallbackNames[1] || '',
     email: normalizedEmail || ACCOUNT.email,
   };
 }
@@ -112,7 +108,7 @@ const initialState: State = {
   },
   saved: { j2: 'APPLIED', j5: 'SAVED', j14: 'SAVED', j31: 'REJECTED' },
   resume: {
-    name: ACCOUNT.name,
+    name: `${ACCOUNT.firstName} ${ACCOUNT.lastName}`,
     email: ACCOUNT.email,
     phone: '+31 6 0000 0000',
     city: 'Utrecht, Netherlands',
@@ -144,7 +140,7 @@ const initialState: State = {
 
 type Api = State & {
   hydrated: boolean;
-  logIn: (email?: string) => void;
+  logIn: (email?: string, firstName?: string, lastName?: string) => void;
   logOut: () => void;
   toggleSave: (id: string) => void;
   setStatus: (id: string, status: JobState) => void;
@@ -176,7 +172,13 @@ function normalize(next: State): State {
     ...next.profile,
     experienceYears: next.profile.experienceYears ?? null,
   };
-  return { ...next, account: next.account ?? ACCOUNT, profile, saved, resume };
+  const currentAccount = next.account ?? ACCOUNT;
+  const account = {
+    firstName: currentAccount.firstName ?? ACCOUNT.firstName,
+    lastName: currentAccount.lastName ?? '',
+    email: currentAccount.email ?? ACCOUNT.email,
+  };
+  return { ...next, account, profile, saved, resume };
 }
 
 export function AppProvider({ children }: { children: ReactNode }) {
@@ -219,7 +221,8 @@ export function AppProvider({ children }: { children: ReactNode }) {
     return {
       ...state,
       hydrated,
-      logIn: (email) => patch({ loggedIn: true, account: email ? accountFromEmail(email) : state.account }),
+      logIn: (email, firstName, lastName) =>
+        patch({ loggedIn: true, account: email ? accountFromEmail(email, firstName, lastName) : state.account }),
       logOut: () => patch({ loggedIn: false }),
       toggleSave: (id) =>
         setState((current) => {

@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
-import { useApp } from '@/lib/store';
+import { accountInitials, useApp } from '@/lib/store';
 import { Mark } from './Logo';
 
 const LINKS = [
@@ -44,7 +44,7 @@ export default function Navbar() {
           <div className="nav-account">
             <span className="row" style={{ gap: 9 }}>
               <span className="avatar" aria-hidden="true">
-                {account.initials}
+                {accountInitials(account)}
               </span>
               <span style={{ fontSize: 13, color: 'var(--ink-3)' }}>{account.firstName}</span>
             </span>

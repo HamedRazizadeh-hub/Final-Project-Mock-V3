@@ -13,6 +13,8 @@ import { Mark } from './Logo';
 export default function AuthPanel({ mode }: { mode: 'login' | 'register' }) {
   const router = useRouter();
   const { logIn } = useApp();
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const register = mode === 'register';
@@ -37,10 +39,34 @@ export default function AuthPanel({ mode }: { mode: 'login' | 'register' }) {
           style={{ gap: 14 }}
           onSubmit={(event) => {
             event.preventDefault();
-            logIn(email);
+            logIn(email, register ? firstName : undefined, register ? lastName : undefined);
             router.push(register ? '/profile' : '/');
           }}
         >
+          {register ? (
+            <>
+              <label className="field">
+                First name
+                <input
+                  className="input"
+                  required
+                  value={firstName}
+                  onChange={(event) => setFirstName(event.target.value)}
+                  placeholder="Alex"
+                />
+              </label>
+              <label className="field">
+                Last name
+                <input
+                  className="input"
+                  required
+                  value={lastName}
+                  onChange={(event) => setLastName(event.target.value)}
+                  placeholder="Morgan"
+                />
+              </label>
+            </>
+          ) : null}
           <label className="field">
             Email
             <input
