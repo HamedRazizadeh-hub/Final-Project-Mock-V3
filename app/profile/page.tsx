@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import StateBlock from '@/components/StateBlock';
 import { CITIES, EMPLOYMENT_TYPES, type EmploymentType, SKILL_LIBRARY, WORK_MODES, type WorkMode } from '@/lib/jobs';
-import { type MatchProfile, useApp } from '@/lib/store';
+import { type Account, type MatchProfile, useApp } from '@/lib/store';
 
 function completionFor(profile: MatchProfile) {
   const checks = [
@@ -20,15 +20,19 @@ function completionFor(profile: MatchProfile) {
 }
 
 export default function ProfilePage() {
-  const { loggedIn, profile, patchProfile, completion } = useApp();
+  const { loggedIn, account, profile, patchAccount, patchProfile, completion } = useApp();
   const [editing, setEditing] = useState(false);
+  const [draftAccount, setDraftAccount] = useState<Account>(account);
   const [draftProfile, setDraftProfile] = useState<MatchProfile>(profile);
   const [roleDraft, setRoleDraft] = useState('');
   const [skillDraft, setSkillDraft] = useState('');
 
   useEffect(() => {
-    if (!editing) setDraftProfile(profile);
-  }, [editing, profile]);
+    if (!editing) {
+      setDraftAccount(account);
+      setDraftProfile(profile);
+    }
+  }, [account, editing, profile]);
 
   if (!loggedIn) {
     return (
@@ -53,6 +57,11 @@ export default function ProfilePage() {
   };
 
   const saveProfile = () => {
+    patchAccount({
+      firstName: draftAccount.firstName.trim(),
+      lastName: draftAccount.lastName.trim(),
+      email: draftAccount.email.trim().toLowerCase(),
+    });
     patchProfile(draftProfile);
     setRoleDraft('');
     setSkillDraft('');
@@ -60,12 +69,14 @@ export default function ProfilePage() {
   };
 
   const cancelEditing = () => {
+    setDraftAccount(account);
     setDraftProfile(profile);
     setRoleDraft('');
     setSkillDraft('');
     setEditing(false);
   };
 
+  const updateAccountDraft = (patch: Partial<Account>) => setDraftAccount((current) => ({ ...current, ...patch }));
   const updateDraft = (patch: Partial<MatchProfile>) => setDraftProfile((current) => ({ ...current, ...patch }));
 
   const toggle = <T extends string>(list: T[], value: T) =>
@@ -74,6 +85,7 @@ export default function ProfilePage() {
   const suggestions = SKILL_LIBRARY.filter(
     (skill) => !draftProfile.skills.includes(skill) && skill.toLowerCase().includes(skillDraft.toLowerCase()),
   ).slice(0, 8);
+  const visibleAccount = editing ? draftAccount : account;
   const visibleProfile = editing ? draftProfile : profile;
   const visibleCompletion = editing ? completionFor(draftProfile) : completion;
   const hasExperienceAnswer = visibleProfile.experienceYears !== null;
@@ -118,6 +130,43 @@ export default function ProfilePage() {
           </div>
         </div>
       </div>
+
+      <section className="profile-section">
+        <div>
+          <p className="label label-ink">Account details</p>
+          <p className="profile-why">Your personal account identity.</p>
+        </div>
+        <div className="field-grid" style={{ maxWidth: 620 }}>
+          <label className="field">
+            First name
+            <input
+              className="input"
+              value={visibleAccount.firstName}
+              readOnly={!editing}
+              onChange={(event) => updateAccountDraft({ firstName: event.target.value })}
+            />
+          </label>
+          <label className="field">
+            Last name
+            <input
+              className="input"
+              value={visibleAccount.lastName}
+              readOnly={!editing}
+              onChange={(event) => updateAccountDraft({ lastName: event.target.value })}
+            />
+          </label>
+          <label className="field">
+            Email
+            <input
+              className="input"
+              type="email"
+              value={visibleAccount.email}
+              readOnly={!editing}
+              onChange={(event) => updateAccountDraft({ email: event.target.value })}
+            />
+          </label>
+        </div>
+      </section>
 
       <section className="profile-section">
         <div>

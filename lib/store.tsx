@@ -145,6 +145,7 @@ type Api = State & {
   toggleSave: (id: string) => void;
   setStatus: (id: string, status: JobState) => void;
   isSaved: (id: string) => boolean;
+  patchAccount: (patch: Partial<Account>) => void;
   patchProfile: (patch: Partial<MatchProfile>) => void;
   patchResume: (patch: Partial<Resume>) => void;
   completion: number;
@@ -233,6 +234,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
         }),
       setStatus: (id, status) => setState((current) => ({ ...current, saved: { ...current.saved, [id]: status } })),
       isSaved: (id) => Boolean(state.saved[id]),
+      patchAccount: (next) => setState((current) => ({ ...current, account: { ...current.account, ...next } })),
       patchProfile: (next) => setState((current) => ({ ...current, profile: { ...current.profile, ...next } })),
       patchResume: (next) => setState((current) => ({ ...current, resume: { ...current.resume, ...next } })),
       completion: Math.round((checks.filter(Boolean).length / checks.length) * 100),
